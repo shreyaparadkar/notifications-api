@@ -71,7 +71,10 @@ export const replyToFeedback = async (req: Request, res: Response) => {
             .select("id, user_id, details, created_at");
         if (error) throw error;
 
-        let replyData = data[0];
+        const {data: userData, error:userDataError} = await supabase.from("users").select('name').eq("id", data[0].user_id);
+        if(userDataError) throw error;
+
+        let replyData = {...data[0], user_name: userData[0].name};
 
         // create notification
         const { error: notifError } = await supabase
