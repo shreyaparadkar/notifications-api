@@ -3,7 +3,7 @@ import { supabase } from "../config/supabase.js";
 
 export const getAllFeedbacks = async (req: Request, res: Response) => {
     try {
-        const { data, error } = await supabase.from("feedbacks").select("id, details, created_at");
+        const { data, error } = await supabase.from("feedbacks").select("id, details, created_at").order("created_at");
 
         if (!error) res.status(200).send({ data, success: true });
         else throw error;
